@@ -58,9 +58,17 @@ export function AlertsAvatarsSection() {
             </Avatar>
           </div>
 
-          <Avatar>
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
+          <div className="flex items-center gap-[10px]">
+            <Avatar size="sm">
+              <AvatarFallback>SH</AvatarFallback>
+            </Avatar>
+            <Avatar size="default">
+              <AvatarFallback>SH</AvatarFallback>
+            </Avatar>
+            <Avatar size="lg">
+              <AvatarFallback>SH</AvatarFallback>
+            </Avatar>
+          </div>
 
           <Avatar>
             <AvatarImage src="/broken-image.png" alt="Broken" />

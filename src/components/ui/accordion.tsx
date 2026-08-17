@@ -2,6 +2,8 @@ import { cn } from '@/lib/utils';
 import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
+import { LightOverlay } from '../shared';
+
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
@@ -14,11 +16,9 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
 
 function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn('overflow-hidden rounded-lg border border-border bg-card', className)}
-      {...props}
-    />
+    <LightOverlay>
+      <AccordionPrimitive.Item data-slot="accordion-item" className={cn(className)} {...props} />
+    </LightOverlay>
   );
 }
 

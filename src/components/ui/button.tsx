@@ -11,7 +11,7 @@ const buttonVariants = cva(
     bg-clip-padding
     font-semibold whitespace-nowrap
     transition-all
-    outline-none select-none cursor-pointer
+    outline-none select-none
 
     active:not-aria-[haspopup]:translate-y-px
 

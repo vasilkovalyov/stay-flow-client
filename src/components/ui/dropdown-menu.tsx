@@ -13,7 +13,13 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
 }
 
 function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props) {
-  return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />;
+  return (
+    <MenuPrimitive.Trigger
+      data-slot="dropdown-menu-trigger"
+      {...props}
+      className="flex items-center gap-[8px] pl-[4px] pr-[10px] py-[4px] rounded-xl hover:bg-secondary transition-colors"
+    />
+  );
 }
 
 function DropdownMenuContent({
@@ -39,10 +45,10 @@ function DropdownMenuContent({
           className={cn(
             `
               z-50 max-h-(--available-height) w-(--anchor-width)
-              min-w-[168px] origin-(--transform-origin)
+              min-w-[206px] origin-(--transform-origin)
               overflow-x-hidden overflow-y-auto
 
-              rounded-xl bg-popover p-[6px]
+              rounded-xl bg-popover py-[6px]
               text-popover-foreground
               shadow-lg ring-1 ring-foreground/5
               duration-100
@@ -116,11 +122,13 @@ function DropdownMenuItem({
           group/dropdown-menu-item relative flex
           cursor-default items-center gap-[8px]
 
-          radius-lg px-[10px] py-[7px]
+          radius-lg px-[12px] py-[9px]
           font-semibold
           outline-hidden select-none
 
           data-inset:pl-[33.25px]
+
+          hover:bg-secondary
 
           focus:bg-accent
           focus:text-accent-foreground
@@ -348,7 +356,7 @@ function DropdownMenuSeparator({ className, ...props }: MenuPrimitive.Separator.
   return (
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
-      className={cn('-mx-[6px] my-[6px] h-px bg-border/50', className)}
+      className={cn('-mx-[6px] my-[6px] h-px bg-border', className)}
       {...props}
     />
   );
