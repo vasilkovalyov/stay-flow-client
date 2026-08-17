@@ -7,7 +7,7 @@ const buttonVariants = cva(
     group/button inline-flex shrink-0 items-center
     justify-center gap-[8px]
 
-    rounded-lg border border-transparent
+    border border-transparent
     bg-clip-padding
     font-semibold whitespace-nowrap
     transition-all
@@ -34,7 +34,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/80',
         outline:
-          'border-border hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground',
+          'border-border bg-light hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground',
         secondary:
           'bg-secondary text-secondary-foreground aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
         ghost:
@@ -44,9 +44,10 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        sm: "text-xs py-[6px] px-[12px] [&_svg:not([class*='size-'])]:size-[14px]",
-        default: "text-base py-[10px] px-[16px] [&_svg:not([class*='size-'])]:size-[16px]",
-        lg: "rounded-xl text-sm py-[14px] px-[24px] [&_svg:not([class*='size-'])]:size-[18px]",
+        sm: "rounded-xl text-xs py-[6px] px-[12px] [&_svg:not([class*='size-'])]:size-[14px]",
+        default:
+          "rounded-xl text-base py-[10px] px-[16px] [&_svg:not([class*='size-'])]:size-[16px]",
+        lg: "rounded-lg  text-sm py-[14px] px-[24px] [&_svg:not([class*='size-'])]:size-[18px]",
       },
     },
     defaultVariants: {
