@@ -23,6 +23,16 @@ export const plusJakartaSansFont = localFont({
       style: 'normal',
     },
     {
+      path: '../public/fonts/PlusJakartaSans-Bold.woff',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/PlusJakartaSans-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
       path: '../public/fonts/PlusJakartaSans-ExtraBold.woff',
       weight: '800',
       style: 'normal',

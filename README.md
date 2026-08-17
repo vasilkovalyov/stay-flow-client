@@ -63,3 +63,5 @@ And check out the following files:
 
 - ./e2e/example.spec.ts - Example end-to-end test
 - ./playwright.config.ts - Playwright Test configuration
+
+npx shadcn@latest add accordion aspect-ratio badge button card checkbox field input-group native-select popover spinner tabs toggle alert attachment breadcrumb dialog dropdown-menu input-otp label message navigation-menu progress separator skeleton switch textarea alert-dialog avatar calendar input pagination slider table toast
