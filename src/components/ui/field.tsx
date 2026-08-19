@@ -119,6 +119,7 @@ function FieldLabel({ className, ...props }: ComponentProps<typeof Label>) {
       data-slot="field-label"
       className={cn(
         `
+          text-foreground
           group/field-label peer/field-label flex w-fit
           gap-[8px] leading-snug
           font-semibold
@@ -155,11 +156,11 @@ function FieldTitle({ className, ...props }: ComponentProps<'div'>) {
 
 function FieldDescription({ className, ...props }: ComponentProps<'p'>) {
   return (
-    <p
+    <div
       data-slot="field-description"
       className={cn(
         `
-          text-xs text-destructive text-muted-foreground
+          text-xs text-muted-foreground
 
           [[data-variant=legend]+&]:-mt-[6px]
           group-has-data-horizontal/field:text-balance
@@ -189,20 +190,23 @@ function FieldSeparator({
       data-slot="field-separator"
       data-content={!!children}
       className={cn(
-        'relative -my-[7px] h-[17.5px] group-data-[variant=outline]/field-group:-mb-[7px]',
+        `grid grid-cols-[1fr_auto_1fr] items-center
+        gap-[8px]
+        group-data-[variant=outline]/field-group:-mb-[8px]`,
         className,
       )}
       {...props}
     >
-      <Separator className="absolute inset-0 top-1/2" />
+      <Separator className="w-auto" />
       {children && (
         <span
-          className="relative mx-auto block w-fit bg-background px-[7px] text-muted-foreground"
+          className="relative px-[8px] text-muted-foreground"
           data-slot="field-separator-content"
         >
           {children}
         </span>
       )}
+      <Separator className="w-auto" />
     </div>
   );
 }

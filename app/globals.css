@@ -129,9 +129,14 @@
     @apply w-full max-w-full md:max-w-[1280px] px-[20px] mx-auto;
   }
 
+  .container-xs {
+    @apply max-w-[468px] w-full px-[20px] mx-auto;
+  }
+
   .container-sm {
     @apply max-w-[632px] w-full px-[20px] mx-auto;
   }
+
   .container-md {
     @apply max-w-[728px] w-full px-[20px] mx-auto;
   }

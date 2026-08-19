@@ -8,6 +8,7 @@ const lightOverlayVariants = cva('border border-border overflow-hidden', {
     background: {
       light: 'bg-light',
       secondary: 'bg-secondary',
+      error: 'bg-red-50 border border-red-200',
     },
     radius: {
       default: 'rounded-lg',

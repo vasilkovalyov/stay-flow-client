@@ -4,6 +4,8 @@ import { UserDropdown, UserMessages, UserNotifications } from '@/features/auth/c
 
 import { AppLogo } from '@/components/shared';
 
+import { PAGES } from '@/constants';
+
 import { AuthButtons } from './components';
 
 export function Header() {
@@ -13,7 +15,7 @@ export function Header() {
     <header className="fixed top-0 inset-x-0 z-50 bg-light border-b border-border py-[16px]">
       <div className="container">
         <div className="flex justify-between">
-          <Link href="/">
+          <Link href={PAGES.home}>
             <AppLogo />
           </Link>
           <div className="flex gap-[8px] items-center">
