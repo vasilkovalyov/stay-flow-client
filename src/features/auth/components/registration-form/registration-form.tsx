@@ -3,8 +3,10 @@
 import { useState } from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { MailIcon, UserPlusIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -14,27 +16,47 @@ import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';
 
+import { setCookie } from '@/utils';
+
 import { PasswordRequirements } from '../password-requirments';
-import { defaultValues } from './sign-up-form.constant';
-import { SignUpFormValues } from './sign-up-form.type';
-import { signUp } from './sign-up-form.utils';
-import { schemaValidation } from './sign-up-form.validation';
+import { defaultValues } from './registration-form.constant';
+import type { RegistrationFormValues } from './registration-form.type';
+import { schemaValidation } from './registration-form.validation';
+import { registration } from './registration.api';
 
-export function SignUpForm() {
-  const [hasError, setHasError] = useState(false);
+export function RegistrationForm() {
+  const router = useRouter();
 
-  const methods = useForm<SignUpFormValues>({
+  const [error, setError] = useState<string | null>(null);
+  const methods = useForm<RegistrationFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
   });
 
-  async function onSubmit(values: SignUpFormValues) {
-    try {
-      await signUp();
-    } catch {
-      setHasError(true);
-    }
-    console.log(values);
+  const registrationMutation = useMutation({
+    mutationFn: registration,
+  });
+
+  async function onSubmit(values: RegistrationFormValues) {
+    await registrationMutation.mutateAsync(
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onSuccess: async () => {
+          setCookie(values.email, 15 * 60);
+          router.push(PAGES.emailVerification);
+        },
+        onError: (e) => {
+          if (e instanceof Error) {
+            setError(e.message);
+          }
+        },
+      },
+    );
   }
 
   return (
@@ -107,13 +129,19 @@ export function SignUpForm() {
         }
       />
 
-      {hasError && (
+      {error && (
         <LightOverlay className="p-[10px] w-full" background="error">
-          <p className="text-destructive text-center">User already exist</p>
+          <p className="text-destructive text-center">{error}</p>
         </LightOverlay>
       )}
 
-      <Button type="submit" className="w-full" size="lg" data-testid="submit">
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        data-testid="submit"
+        disabled={registrationMutation.isPending}
+      >
         <UserPlusIcon size={16} />
         Create account
       </Button>

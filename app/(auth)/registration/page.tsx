@@ -1,11 +1,11 @@
-import { SignUpForm } from '@/features/auth/components';
+import { RegistrationForm } from '@/features/auth/components';
 
 import { AuthLayout } from '@/components/layouts';
 
-export default function SignUp() {
+export default function RegistrationPage() {
   return (
     <AuthLayout title="Create your account" subtitle="Join 2.4M+ travelers on StayFlow">
-      <SignUpForm />
+      <RegistrationForm />
     </AuthLayout>
   );
 }

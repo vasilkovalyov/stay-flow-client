@@ -1,7 +1,7 @@
 export const PAGES = {
   home: '/',
   login: '/login',
-  signUp: '/sign-up',
+  registration: '/registration',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
   emailVerification: '/email-verification',

@@ -6,7 +6,7 @@ import { API_REQUEST } from '@/constants';
 import { User } from '@/types';
 import { ApiResponse } from '@/types';
 
-export async function getMeApi(): Promise<ApiResponse<User>> {
+export async function getMeApi(): ApiResponse<User> {
   const response = await serverApiFetch<User>(API_REQUEST.getMe, {
     method: 'GET',
   });

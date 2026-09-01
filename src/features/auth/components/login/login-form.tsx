@@ -73,17 +73,17 @@ export function LoginForm() {
         autoComplete="current-password"
         data-testid="password"
       />
-      {/* <div className="flex items-center justify-between">
-        <FormField
+      <div className="flex items-center justify-between">
+        {/* <FormField
           type="checkbox"
           name="rememberMe"
           label="Remember me"
           data-testid="remember-me"
-        />
+        /> */}
         <Link href={PAGES.forgotPassword} className="text-primary hover:underline">
           Forgot password?
         </Link>
-      </div> */}
+      </div>
 
       {error && (
         <LightOverlay className="p-[10px]" background="error">
@@ -91,7 +91,13 @@ export function LoginForm() {
         </LightOverlay>
       )}
 
-      <Button type="submit" className="w-full" size="lg" data-testid="submit">
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        data-testid="submit"
+        disabled={loginMutation.isPending}
+      >
         <LogInIcon size={16} />
         Sign in
       </Button>
@@ -99,7 +105,7 @@ export function LoginForm() {
 
       <p className="text-center text-muted-foreground">
         Don&apos;t have an account?{' '}
-        <Link href={PAGES.signUp} className="text-primary hover:underline">
+        <Link href={PAGES.registration} className="text-primary hover:underline">
           Sign up
         </Link>
       </p>

@@ -12,4 +12,4 @@ export type ApiFail = {
   };
 };
 
-export type ApiResponse<T> = ApiSuccess<T> | ApiFail;
+export type ApiResponse<T> = Promise<ApiSuccess<T> | ApiFail>;

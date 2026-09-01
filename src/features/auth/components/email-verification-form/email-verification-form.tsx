@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { MailCheckIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -19,26 +22,52 @@ import {
   InputOTPSlot,
 } from '@/components/ui';
 
+import { PAGES, REGISTRATION_EMAIL_COOKIE_NAME } from '@/constants';
+
+import { deleteCookie, getCookies } from '@/utils';
+
+import { emailVerification, emailVerificationCode } from './email-verification-form.api';
 import { defaultValues } from './email-verification-form.constant';
 import { EmailVerificationFormValues } from './email-verification-form.type';
-import { verification } from './email-verification-form.utils';
 import { schemaValidation } from './email-verification-form.validation';
 
 export function EmailVerificationForm() {
-  const [hasError, setHasError] = useState(false);
+  const router = useRouter();
 
+  const [error, setError] = useState<string | null>(null);
   const methods = useForm<EmailVerificationFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
   });
 
-  async function onSubmit(values: EmailVerificationFormValues) {
-    try {
-      await verification();
-    } catch {
-      setHasError(true);
-    }
-    console.log(values);
+  const emailVerificationMutation = useMutation({
+    mutationFn: emailVerification,
+    onSuccess: async () => {
+      deleteCookie(REGISTRATION_EMAIL_COOKIE_NAME);
+      router.push(PAGES.login);
+    },
+    onError: (e) => {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
+    },
+  });
+
+  const emailVerificationCodeMutation = useMutation({
+    mutationFn: emailVerificationCode,
+  });
+
+  function onSubmit(values: EmailVerificationFormValues) {
+    emailVerificationMutation.mutate({
+      email: getCookies(REGISTRATION_EMAIL_COOKIE_NAME)!,
+      code: values.code,
+    });
+  }
+
+  function onResendCode() {
+    emailVerificationCodeMutation.mutate({
+      email: getCookies(REGISTRATION_EMAIL_COOKIE_NAME)!,
+    });
   }
 
   return (
@@ -82,20 +111,26 @@ export function EmailVerificationForm() {
         )}
       />
 
-      {hasError && (
+      {error && (
         <LightOverlay className="p-[10px] w-full" background="error">
-          <p className="text-destructive text-center">Invalid code</p>
+          <p className="text-destructive text-center">{error}</p>
         </LightOverlay>
       )}
 
-      <Button type="submit" className="w-full" size="lg" data-testid="submit">
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        data-testid="submit"
+        disabled={emailVerificationMutation.isPending}
+      >
         <MailCheckIcon size={16} />
         Verify email
       </Button>
 
-      <p className="flex items-center justify-center text-center text-muted-foreground">
-        Didn`t receive it?
-        <Button type="button" variant="link">
+      <p className="text-center text-muted-foreground">
+        Didn`t receive it?{' '}
+        <Button type="button" variant="link" className="font-normal p-0!" onClick={onResendCode}>
           Resend code
         </Button>
       </p>

@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '../../constants';
-import { SignUpForm } from './sign-up-form';
-import { signUp } from './sign-up-form.utils';
+import { RegistrationForm } from './registration-form';
+import { registration } from './registration.api';
 
 const firstName = 'John';
 const lastName = 'Doe';
@@ -56,10 +56,10 @@ async function fillValidForm(
   }
 }
 
-describe('SignUpForm', () => {
+describe('RegistrationForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    render(<SignUpForm />);
+    render(<RegistrationForm />);
   });
 
   it('sign up form with empty first name', async () => {
@@ -157,7 +157,7 @@ describe('SignUpForm', () => {
   it('sign up form if user already exists', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(signUp).mockRejectedValue(new Error('User already exist'));
+    vi.mocked(registration).mockRejectedValue(new Error('User already exist'));
 
     await fillValidForm(user);
     await user.click(screen.getByTestId('submit'));

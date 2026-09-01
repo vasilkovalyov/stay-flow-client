@@ -30,7 +30,7 @@ export function AuthButtons({ children }: AuthButtonsProps) {
           >
             Sign in
           </Button>
-          <Button nativeButton={false} render={<Link href={PAGES.signUp} />} size="sm">
+          <Button nativeButton={false} render={<Link href={PAGES.registration} />} size="sm">
             Sign up
           </Button>
         </div>

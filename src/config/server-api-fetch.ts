@@ -6,10 +6,7 @@ import { ApiResponse } from '@/types';
 
 import { mergeCookies } from '@/utils';
 
-export async function serverApiFetch<T>(
-  url: string,
-  options?: RequestInit,
-): Promise<ApiResponse<T>> {
+export async function serverApiFetch<T>(url: string, options?: RequestInit): ApiResponse<T> {
   const cookieStore = await cookies();
   const API_URL = `${process.env.API_URL}/api`;
   const cookieHeader = cookieStore.toString();

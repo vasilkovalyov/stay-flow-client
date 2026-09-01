@@ -1,9 +1,9 @@
 import { apiFetch } from '@/config/api-fetch';
 import { API_REQUEST } from '@/constants';
 
-import { LoginProps } from './login-form.type';
+import { LoginDto } from './login-form.type';
 
-export async function login(dto: LoginProps) {
+export async function login(dto: LoginDto) {
   const response = await apiFetch(API_REQUEST.login, {
     method: 'POST',
     body: JSON.stringify(dto),

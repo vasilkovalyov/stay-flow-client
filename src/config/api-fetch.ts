@@ -2,7 +2,7 @@ import { API_REQUEST, STATUS_RESPONSE } from '@/constants';
 
 import { ApiResponse } from '@/types';
 
-export async function apiFetch<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+export async function apiFetch<T>(url: string, options?: RequestInit): ApiResponse<T> {
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
 
   const data = await fetch(`${API_URL}${url}`, {
