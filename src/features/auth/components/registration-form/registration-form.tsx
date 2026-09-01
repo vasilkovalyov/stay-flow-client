@@ -19,7 +19,7 @@ import { PAGES } from '@/constants';
 import { setCookie } from '@/utils';
 
 import { PasswordRequirements } from '../password-requirments';
-import { defaultValues } from './registration-form.constant';
+import { EMAIL_COOKIE_EXPIRATION, defaultValues } from './registration-form.constant';
 import type { RegistrationFormValues } from './registration-form.type';
 import { schemaValidation } from './registration-form.validation';
 import { registration } from './registration.api';
@@ -35,28 +35,26 @@ export function RegistrationForm() {
 
   const registrationMutation = useMutation({
     mutationFn: registration,
+    onSuccess: async ({ success, data }) => {
+      if (success) {
+        setCookie(data.email, EMAIL_COOKIE_EXPIRATION);
+        router.push(PAGES.emailVerification);
+      }
+    },
+    onError: (e) => {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
+    },
   });
 
-  async function onSubmit(values: RegistrationFormValues) {
-    await registrationMutation.mutateAsync(
-      {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password,
-      },
-      {
-        onSuccess: async () => {
-          setCookie(values.email, 15 * 60);
-          router.push(PAGES.emailVerification);
-        },
-        onError: (e) => {
-          if (e instanceof Error) {
-            setError(e.message);
-          }
-        },
-      },
-    );
+  function onSubmit(values: RegistrationFormValues) {
+    registrationMutation.mutateAsync({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (

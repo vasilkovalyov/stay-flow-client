@@ -8,3 +8,5 @@ export const defaultValues: RegistrationFormValues = {
   confirmPassword: '',
   terms: false,
 };
+
+export const EMAIL_COOKIE_EXPIRATION = 1 * 60;

@@ -16,6 +16,9 @@ import { Button, FieldSeparator } from '@/components/ui';
 
 import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
 
+import { setCookie } from '@/utils';
+
+import { EMAIL_COOKIE_EXPIRATION } from '../registration-form/registration-form.constant';
 import { defaultValues } from './login-form.constant';
 import { LoginFormValues } from './login-form.type';
 import { schemaValidation } from './login-form.validation';
@@ -40,9 +43,10 @@ export function LoginForm() {
 
       router.push(PROTECTED_PAGES.dashboard);
     },
-    onError: (e) => {
+    onError: (e, { email }) => {
       if (e instanceof Error) {
         setError(e.message);
+        setCookie(email, EMAIL_COOKIE_EXPIRATION);
       }
     },
   });
@@ -86,9 +90,16 @@ export function LoginForm() {
       </div>
 
       {error && (
-        <LightOverlay className="p-[10px]" background="error">
-          <p className="text-destructive text-center">{error}</p>
-        </LightOverlay>
+        <div>
+          <LightOverlay className="p-[10px]" background="error">
+            <p className="text-destructive text-center">{error}</p>
+          </LightOverlay>
+          <div className="text-center mt-[10px]">
+            <Link href={PAGES.emailVerification} className="text-primary hover:underline">
+              Go to verification
+            </Link>
+          </div>
+        </div>
       )}
 
       <Button
