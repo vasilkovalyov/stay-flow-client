@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { KeyRoundIcon } from 'lucide-react';
@@ -11,6 +13,9 @@ import { FormField, RootForm } from '@/components/forms';
 import { LightOverlay } from '@/components/shared';
 import { Button } from '@/components/ui';
 
+import { PAGES } from '@/constants';
+
+import { ResetPasswordSuccessDialog } from '../../dialogs';
 import { PasswordRequirements } from '../password-requirments';
 import { resetPasswordApi } from './reset-password-form.api';
 import { defaultValues } from './reset-password-form.constant';
@@ -22,7 +27,11 @@ interface ResetPasswordFormProps {
 }
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+  const router = useRouter();
+
   const [error, setError] = useState<string | null>(null);
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
+
   const methods = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
@@ -30,6 +39,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
   const resetPasswordMutation = useMutation({
     mutationFn: resetPasswordApi,
+    onSuccess: () => {
+      setIsOpenDialog(true);
+    },
     onError: (e: Error) => {
       if (e instanceof Error) {
         setError(e.message);
@@ -45,40 +57,47 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     });
   }
 
+  function onClose() {
+    router.push(PAGES.home);
+  }
+
   return (
-    <RootForm methods={methods} onSubmit={onSubmit} className="flex flex-col gap-[21px]">
-      <FormField
-        type="password"
-        name="password"
-        label="New password"
-        placeholder="Enter new password"
-        autoComplete="new-password"
-        description={<PasswordRequirements />}
-        data-testid="password"
-      />
-      <FormField
-        type="password"
-        name="confirmPassword"
-        label="Confirm new password"
-        placeholder="Repeat new password"
-        autoComplete="new-password"
-        data-testid="confirm-password"
-      />
-      {error && (
-        <LightOverlay className="p-[10px]" background="error">
-          <p className="text-destructive text-center">{error}</p>
-        </LightOverlay>
-      )}
-      <Button
-        type="submit"
-        className="w-full"
-        size="lg"
-        data-testid="submit"
-        disabled={resetPasswordMutation.isPending}
-      >
-        <KeyRoundIcon size={16} />
-        Reset password
-      </Button>
-    </RootForm>
+    <>
+      <RootForm methods={methods} onSubmit={onSubmit} className="flex flex-col gap-[21px]">
+        <FormField
+          type="password"
+          name="password"
+          label="New password"
+          placeholder="Enter new password"
+          autoComplete="new-password"
+          description={<PasswordRequirements />}
+          data-testid="password"
+        />
+        <FormField
+          type="password"
+          name="confirmPassword"
+          label="Confirm new password"
+          placeholder="Repeat new password"
+          autoComplete="new-password"
+          data-testid="confirm-password"
+        />
+        {error && (
+          <LightOverlay className="p-[10px]" background="error">
+            <p className="text-destructive text-center">{error}</p>
+          </LightOverlay>
+        )}
+        <Button
+          type="submit"
+          className="w-full"
+          size="lg"
+          data-testid="submit"
+          disabled={resetPasswordMutation.isPending}
+        >
+          <KeyRoundIcon size={16} />
+          Reset password
+        </Button>
+      </RootForm>
+      <ResetPasswordSuccessDialog open={!isOpenDialog} onClose={onClose} />
+    </>
   );
 }

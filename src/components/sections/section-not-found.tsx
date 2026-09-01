@@ -24,7 +24,7 @@ export function SectionNotFound({ fisrtLink, secondLink }: SectionNotFoundProps)
           <p className="text-muted-foreground max-w-[336px] mb-[14px]">
             Oops! The page you`re looking for doesn`t exist or has been moved.
           </p>
-          <div className="flex justify-center gap-[10px]">
+          <div className="flex flex-wrap justify-center gap-[10px]">
             <Button size="lg" nativeButton={false} render={<Link href={fisrtLink.href} />}>
               <Home />
               {fisrtLink.text}
