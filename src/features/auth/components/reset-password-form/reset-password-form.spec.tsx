@@ -27,7 +27,7 @@ async function fillValidForm(
 describe('ResetPasswordForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    render(<ResetPasswordForm />);
+    render(<ResetPasswordForm token="test-token" />);
   });
 
   it('reset password form with password shorter than 8 characters', async () => {

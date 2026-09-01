@@ -1,29 +1,48 @@
 'use client';
 
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { KeyRoundIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
+import { LightOverlay } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PasswordRequirements } from '../password-requirments';
+import { resetPasswordApi } from './reset-password-form.api';
 import { defaultValues } from './reset-password-form.constant';
 import { ResetPasswordFormValues } from './reset-password-form.type';
-import { resetPassword } from './reset-password-form.utils';
 import { schemaValidation } from './reset-password-form.validation';
 
-export function ResetPasswordForm() {
+interface ResetPasswordFormProps {
+  token: string;
+}
+
+export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+  const [error, setError] = useState<string | null>(null);
   const methods = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
   });
 
-  async function onSubmit(values: ResetPasswordFormValues) {
-    try {
-      await resetPassword();
-    } catch {}
-    console.log(values);
+  const resetPasswordMutation = useMutation({
+    mutationFn: resetPasswordApi,
+    onError: (e: Error) => {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
+    },
+  });
+
+  function onSubmit(values: ResetPasswordFormValues) {
+    resetPasswordMutation.mutate({
+      token: token,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+    });
   }
 
   return (
@@ -45,7 +64,18 @@ export function ResetPasswordForm() {
         autoComplete="new-password"
         data-testid="confirm-password"
       />
-      <Button type="submit" className="w-full" size="lg" data-testid="submit">
+      {error && (
+        <LightOverlay className="p-[10px]" background="error">
+          <p className="text-destructive text-center">{error}</p>
+        </LightOverlay>
+      )}
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        data-testid="submit"
+        disabled={resetPasswordMutation.isPending}
+      >
         <KeyRoundIcon size={16} />
         Reset password
       </Button>

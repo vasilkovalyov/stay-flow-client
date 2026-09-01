@@ -1,32 +1,46 @@
 'use client';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { ChevronLeft, MailIcon, SendIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
+import { LightOverlay } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';
 
+import { forgotPasswordApi } from './forgot-password-form.api';
 import { defaultValues } from './forgot-password-form.constant';
 import { ForgotPasswordFormValues } from './forgot-password-form.type';
-import { forgotPassword } from './forgot-password-form.utils';
 import { schemaValidation } from './forgot-password-form.validation';
 
 export function ForgotPasswordForm() {
+  const [error, setError] = useState<string | null>(null);
+
   const methods = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
   });
 
-  async function onSubmit(values: ForgotPasswordFormValues) {
-    try {
-      await forgotPassword();
-    } catch {}
-    console.log(values);
+  const forgotPasswordMutation = useMutation({
+    mutationFn: forgotPasswordApi,
+    onError: (e) => {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
+    },
+  });
+
+  function onSubmit(values: ForgotPasswordFormValues) {
+    forgotPasswordMutation.mutate({
+      email: values.email,
+    });
   }
 
   return (
@@ -41,7 +55,19 @@ export function ForgotPasswordForm() {
         data-testid="email"
       />
 
-      <Button type="submit" className="w-full" size="lg" data-testid="submit">
+      {error && (
+        <LightOverlay className="p-[10px]" background="error">
+          <p className="text-destructive text-center">{error}</p>
+        </LightOverlay>
+      )}
+
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        data-testid="submit"
+        disabled={forgotPasswordMutation.isPending}
+      >
         <SendIcon size={16} />
         Send reset link
       </Button>
