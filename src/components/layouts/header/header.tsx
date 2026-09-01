@@ -9,8 +9,6 @@ import { PAGES } from '@/constants';
 import { AuthButtons } from './components';
 
 export function Header() {
-  const isAuth = true;
-
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-light border-b border-border py-[16px]">
       <div className="container">
@@ -18,17 +16,11 @@ export function Header() {
           <Link href={PAGES.home}>
             <AppLogo />
           </Link>
-          <div className="flex gap-[8px] items-center">
-            {isAuth ? (
-              <AuthButtons />
-            ) : (
-              <>
-                <UserMessages />
-                <UserNotifications />
-                <UserDropdown />
-              </>
-            )}
-          </div>
+          <AuthButtons>
+            <UserMessages />
+            <UserNotifications />
+            <UserDropdown />
+          </AuthButtons>
         </div>
       </div>
     </header>

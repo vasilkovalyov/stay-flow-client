@@ -1,16 +1,16 @@
+import { VALIDATION_MESSAGES } from '@/features/auth/constants';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { VALIDATION_MESSAGES } from '../../constants';
-import { SignInForm } from './sign-in-form';
-import { signIn } from './sign-in-form.utils';
+import { LoginForm } from './login-form';
+import { login } from './login.api';
 
 const correctEmail = 'test@example.com';
 const incorrectEmail = 'test';
 const validPassword = 'password123';
 
-vi.mock('./sign-in-form.utils', () => ({
+vi.mock('./login-form.utils', () => ({
   signIn: vi.fn(),
 }));
 
@@ -35,13 +35,13 @@ async function fillValidForm(
   }
 }
 
-describe('SignInForm', () => {
+describe('LoginForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    render(<SignInForm />);
+    render(<LoginForm />);
   });
 
-  it('sign in form with empty email', async () => {
+  it('login form with empty email', async () => {
     const user = userEvent.setup();
 
     await fillValidForm(user, { email: '' });
@@ -50,7 +50,7 @@ describe('SignInForm', () => {
     expect(await screen.findByText(VALIDATION_MESSAGES.email.invalid)).toBeInTheDocument();
   });
 
-  it('sign in form with incorrect email', async () => {
+  it('login form with incorrect email', async () => {
     const user = userEvent.setup();
 
     await fillValidForm(user, { email: incorrectEmail });
@@ -59,7 +59,7 @@ describe('SignInForm', () => {
     expect(await screen.findByText(VALIDATION_MESSAGES.email.invalid)).toBeInTheDocument();
   });
 
-  it('sign in form with empty password', async () => {
+  it('login form with empty password', async () => {
     const user = userEvent.setup();
 
     await fillValidForm(user, { password: '' });
@@ -68,7 +68,7 @@ describe('SignInForm', () => {
     expect(await screen.findByText(VALIDATION_MESSAGES.password.required)).toBeInTheDocument();
   });
 
-  it('sign in form with remember me checkbox', async () => {
+  it('login form with remember me checkbox', async () => {
     const user = userEvent.setup();
 
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -85,7 +85,7 @@ describe('SignInForm', () => {
     consoleSpy.mockRestore();
   });
 
-  it('sign in form without remember me checkbox', async () => {
+  it('login form without remember me checkbox', async () => {
     const user = userEvent.setup();
 
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -102,10 +102,10 @@ describe('SignInForm', () => {
     consoleSpy.mockRestore();
   });
 
-  it('sign in form if user not found', async () => {
+  it('login form if user not found', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(signIn).mockRejectedValue(new Error('User not found'));
+    vi.mocked(login).mockRejectedValue(new Error('User not found'));
 
     await fillValidForm(user);
     await user.click(screen.getByTestId('submit'));

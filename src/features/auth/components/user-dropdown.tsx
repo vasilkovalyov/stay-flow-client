@@ -1,7 +1,11 @@
+'use client';
+
 import { ReactNode } from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Calendar, ChevronDown, CreditCard, Heart, LogOut, Settings, User } from 'lucide-react';
 
 import {
@@ -15,9 +19,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui';
 
-import { PROTECTED_PAGES } from '@/constants';
+import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
 
 import { LinkNavigation } from '@/types';
+
+import { getUserInitials } from '@/utils';
+
+import { logoutApi } from '../api/logout.api';
+import { useMe } from '../hooks/use-me';
 
 export interface UserDropdownLink extends LinkNavigation {
   icon: ReactNode;
@@ -52,14 +61,37 @@ const DROPDOWN_NAVIGATION: UserDropdownLink[] = [
 ];
 
 export function UserDropdown() {
+  const { data: user } = useMe();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const logoutMutation = useMutation({
+    mutationFn: logoutApi,
+    onSuccess: async () => {
+      await queryClient.removeQueries({
+        queryKey: [TANSTACK_QUERY_KEY.getMe],
+      });
+
+      router.push(PAGES.login);
+    },
+  });
+
+  function onLogout() {
+    logoutMutation.mutate();
+  }
+
+  if (!user?.success) return;
+
+  const { firstName, lastName, email } = user.data;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="flex items-center gap-[8px]">
           <Avatar size="sm">
-            <AvatarFallback>JH</AvatarFallback>
+            <AvatarFallback>{getUserInitials(firstName, lastName)}</AvatarFallback>
           </Avatar>
-          <span className="font-semibold hidden sm:block">John</span>
+          <span className="font-semibold hidden sm:block">{firstName}</span>
           <ChevronDown size={14} className="text-foreground" />
         </div>
       </DropdownMenuTrigger>
@@ -67,8 +99,10 @@ export function UserDropdown() {
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
           <div className="py-[10px] px-[12px]">
-            <p className="font-bold">John Doe</p>
-            <p className="text-xs text-muted-foreground">john@stayflow.com</p>
+            <p className="font-bold">
+              {firstName} {lastName}
+            </p>
+            <p className="text-xs text-muted-foreground">{email}</p>
           </div>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -86,7 +120,7 @@ export function UserDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem variant="destructive" onClick={onLogout}>
             <LogOut />
             Sign Out
           </DropdownMenuItem>

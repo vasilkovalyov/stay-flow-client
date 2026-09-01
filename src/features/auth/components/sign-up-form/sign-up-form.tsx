@@ -119,7 +119,7 @@ export function SignUpForm() {
       </Button>
       <p className="w-full text-center text-muted-foreground">
         Already have an account?{' '}
-        <Link href={PAGES.signIn} className="text-primary hover:underline">
+        <Link href={PAGES.login} className="text-primary hover:underline">
           Sign in
         </Link>
       </p>

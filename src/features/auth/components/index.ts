@@ -1,7 +1,7 @@
 export { UserDropdown } from './user-dropdown';
 export { UserMessages } from './user-messages';
 export { UserNotifications } from './user-notifications';
-export { SignInForm } from './sign-in-form';
+export { LoginForm } from './login';
 export { SignUpForm } from './sign-up-form';
 export { ForgotPasswordForm } from './forgot-password-form';
 export { ResetPasswordForm } from './reset-password-form';

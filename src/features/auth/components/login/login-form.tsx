@@ -3,8 +3,10 @@
 import { useState } from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LogInIcon, MailIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -12,27 +14,44 @@ import { FormField, RootForm } from '@/components/forms';
 import { LightOverlay } from '@/components/shared';
 import { Button, FieldSeparator } from '@/components/ui';
 
-import { PAGES } from '@/constants';
+import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
 
-import { defaultValues } from './sign-in-form.constant';
-import { SignInFormValues } from './sign-in-form.type';
-import { signIn } from './sign-in-form.utils';
-import { schemaValidation } from './sign-in-form.validation';
+import { defaultValues } from './login-form.constant';
+import { LoginFormValues } from './login-form.type';
+import { schemaValidation } from './login-form.validation';
+import { login } from './login.api';
 
-export function SignInForm() {
-  const [hasError, setHasError] = useState(false);
-  const methods = useForm<SignInFormValues>({
+export function LoginForm() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const [error, setError] = useState<string | null>(null);
+  const methods = useForm<LoginFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
   });
 
-  async function onSubmit(values: SignInFormValues) {
-    try {
-      await signIn();
-    } catch {
-      setHasError(true);
-    }
-    console.log(values);
+  const loginMutation = useMutation({
+    mutationFn: login,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [TANSTACK_QUERY_KEY.getMe],
+      });
+
+      router.push(PROTECTED_PAGES.dashboard);
+    },
+    onError: (e) => {
+      if (e instanceof Error) {
+        setError(e.message);
+      }
+    },
+  });
+
+  function onSubmit(values: LoginFormValues) {
+    loginMutation.mutate({
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (
@@ -41,7 +60,7 @@ export function SignInForm() {
         type="input"
         name="email"
         label="Email"
-        placeholder="you@example.com"
+        placeholder="Email"
         icon={<MailIcon />}
         autoComplete="email"
         data-testid="email"
@@ -54,7 +73,7 @@ export function SignInForm() {
         autoComplete="current-password"
         data-testid="password"
       />
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <FormField
           type="checkbox"
           name="rememberMe"
@@ -64,11 +83,11 @@ export function SignInForm() {
         <Link href={PAGES.forgotPassword} className="text-primary hover:underline">
           Forgot password?
         </Link>
-      </div>
+      </div> */}
 
-      {hasError && (
+      {error && (
         <LightOverlay className="p-[10px]" background="error">
-          <p className="text-destructive text-center">User not found</p>
+          <p className="text-destructive text-center">{error}</p>
         </LightOverlay>
       )}
 

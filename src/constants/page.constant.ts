@@ -1,6 +1,6 @@
 export const PAGES = {
   home: '/',
-  signIn: '/sign-in',
+  login: '/login',
   signUp: '/sign-up',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
@@ -11,8 +11,11 @@ export const PAGES = {
   faq: '/faq',
   terms: '/terms',
   privacy: '/privacy',
+  notFound: '/404',
 } as const;
 
 export const PROTECTED_PAGES = {
   dashboard: '/dashboard',
 } as const;
+
+export const PROTECTED_ROUTES_ARRAY = Object.values(PROTECTED_PAGES);

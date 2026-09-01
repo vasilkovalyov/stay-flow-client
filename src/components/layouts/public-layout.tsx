@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 import { Footer } from './footer';
 import { Header } from './header';
 
-export function PublicLayout({
+export async function PublicLayout({
   children,
   useFooter = true,
 }: Readonly<PropsWithChildren & { useFooter?: boolean }>) {

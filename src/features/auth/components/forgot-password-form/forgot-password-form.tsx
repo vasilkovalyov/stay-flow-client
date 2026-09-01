@@ -48,7 +48,7 @@ export function ForgotPasswordForm() {
 
       <p className="flex items-center justify-center gap-[6px] text-center">
         <ChevronLeft size={18} />
-        <Link href={PAGES.signIn} className="font-semibold">
+        <Link href={PAGES.login} className="font-semibold">
           Back to sign in
         </Link>
       </p>
