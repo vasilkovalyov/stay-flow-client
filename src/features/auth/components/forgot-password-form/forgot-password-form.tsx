@@ -11,7 +11,7 @@ import { ChevronLeft, MailIcon, SendIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { ErrorFrame, LightOverlay } from '@/components/shared';
+import { ErrorFrame } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';

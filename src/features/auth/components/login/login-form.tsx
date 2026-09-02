@@ -12,7 +12,7 @@ import { LogInIcon, MailIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { ErrorFrame, LightOverlay } from '@/components/shared';
+import { ErrorFrame } from '@/components/shared';
 import { Button, FieldSeparator } from '@/components/ui';
 
 import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';

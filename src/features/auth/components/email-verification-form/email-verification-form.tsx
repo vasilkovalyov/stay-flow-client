@@ -10,7 +10,7 @@ import { MailCheckIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { RootForm } from '@/components/forms';
-import { ErrorFrame, LightOverlay } from '@/components/shared';
+import { ErrorFrame } from '@/components/shared';
 import {
   Button,
   Field,
