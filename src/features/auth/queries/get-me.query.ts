@@ -6,5 +6,5 @@ export const getMeQuery = () => ({
   queryKey: [TANSTACK_QUERY_KEY.getMe],
   queryFn: getMeApi,
   retry: false,
-  staleTime: 60 * 1000,
+  staleTime: 5 * 60 * 1000,
 });

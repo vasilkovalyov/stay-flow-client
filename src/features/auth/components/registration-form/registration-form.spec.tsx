@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VALIDATION_MESSAGES } from '../../constants';
 import { RegistrationForm } from './registration-form';
-import { registration } from './registration.api';
+import { registration } from './registration-form.api';
 
 const firstName = 'John';
 const lastName = 'Doe';

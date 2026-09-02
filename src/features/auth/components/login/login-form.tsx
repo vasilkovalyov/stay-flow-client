@@ -5,13 +5,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { ApiError } from '@/lib/api-error';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LogInIcon, MailIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { LightOverlay } from '@/components/shared';
+import { ErrorFrame, LightOverlay } from '@/components/shared';
 import { Button, FieldSeparator } from '@/components/ui';
 
 import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
@@ -29,6 +30,7 @@ export function LoginForm() {
   const queryClient = useQueryClient();
 
   const [error, setError] = useState<string | null>(null);
+  const [isErrorEmailVerification, setIsErrorEmailVerification] = useState<boolean>(false);
   const methods = useForm<LoginFormValues>({
     resolver: zodResolver(schemaValidation),
     defaultValues: defaultValues,
@@ -44,14 +46,20 @@ export function LoginForm() {
       router.push(PROTECTED_PAGES.dashboard);
     },
     onError: (e, { email }) => {
-      if (e instanceof Error) {
+      if (e instanceof ApiError) {
         setError(e.message);
+        if (e.status === 403) {
+          setIsErrorEmailVerification(true);
+        }
         setCookie(email, EMAIL_COOKIE_EXPIRATION);
       }
     },
   });
 
   function onSubmit(values: LoginFormValues) {
+    setError(null);
+    setIsErrorEmailVerification(false);
+
     loginMutation.mutate({
       email: values.email,
       password: values.password,
@@ -88,20 +96,18 @@ export function LoginForm() {
           Forgot password?
         </Link>
       </div>
-
       {error && (
-        <div>
-          <LightOverlay className="p-[10px]" background="error">
-            <p className="text-destructive text-center">{error}</p>
-          </LightOverlay>
-          <div className="text-center mt-[10px]">
-            <Link href={PAGES.emailVerification} className="text-primary hover:underline">
-              Go to verification
-            </Link>
-          </div>
-        </div>
+        <>
+          <ErrorFrame>{error}</ErrorFrame>
+          {isErrorEmailVerification && (
+            <div className="text-center mt-[10px]">
+              <Link href={PAGES.emailVerification} className="text-primary hover:underline">
+                Go to verification
+              </Link>
+            </div>
+          )}
+        </>
       )}
-
       <Button
         type="submit"
         className="w-full"

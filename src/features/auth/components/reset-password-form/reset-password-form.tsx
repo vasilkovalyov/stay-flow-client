@@ -10,13 +10,12 @@ import { KeyRoundIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { LightOverlay } from '@/components/shared';
+import { ErrorFrame, PasswordRequirements } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';
 
 import { ResetPasswordSuccessDialog } from '../../dialogs';
-import { PasswordRequirements } from '../password-requirments';
 import { resetPasswordApi } from './reset-password-form.api';
 import { defaultValues } from './reset-password-form.constant';
 import { ResetPasswordFormValues } from './reset-password-form.type';
@@ -81,11 +80,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           autoComplete="new-password"
           data-testid="confirm-password"
         />
-        {error && (
-          <LightOverlay className="p-[10px]" background="error">
-            <p className="text-destructive text-center">{error}</p>
-          </LightOverlay>
-        )}
+        {error && <ErrorFrame>{error}</ErrorFrame>}
         <Button
           type="submit"
           className="w-full"

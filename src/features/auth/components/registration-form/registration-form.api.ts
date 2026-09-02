@@ -1,3 +1,5 @@
+import { ApiError } from '@/lib/api-error';
+
 import { apiFetch } from '@/config/api-fetch';
 import { API_REQUEST } from '@/constants';
 
@@ -12,7 +14,8 @@ export async function registration(dto: RegistrationDto): ApiResponse<Registrati
   });
 
   if (!response.success) {
-    throw new Error(response.data.message);
+    const { message, status, error } = response.data;
+    throw new ApiError(message, status, error);
   }
 
   return response;

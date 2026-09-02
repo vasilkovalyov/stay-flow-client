@@ -11,7 +11,7 @@ import { ChevronLeft, MailIcon, SendIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { LightOverlay } from '@/components/shared';
+import { ErrorFrame, LightOverlay } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';
@@ -69,13 +69,7 @@ export function ForgotPasswordForm() {
           autoComplete="email"
           data-testid="email"
         />
-
-        {error && (
-          <LightOverlay className="p-[10px]" background="error">
-            <p className="text-destructive text-center">{error}</p>
-          </LightOverlay>
-        )}
-
+        {error && <ErrorFrame>{error}</ErrorFrame>}
         <Button
           type="submit"
           className="w-full"

@@ -11,18 +11,17 @@ import { MailIcon, UserPlusIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
-import { LightOverlay } from '@/components/shared';
+import { ErrorFrame, PasswordRequirements } from '@/components/shared';
 import { Button } from '@/components/ui';
 
 import { PAGES } from '@/constants';
 
 import { setCookie } from '@/utils';
 
-import { PasswordRequirements } from '../password-requirments';
+import { registration } from './registration-form.api';
 import { EMAIL_COOKIE_EXPIRATION, defaultValues } from './registration-form.constant';
 import type { RegistrationFormValues } from './registration-form.type';
 import { schemaValidation } from './registration-form.validation';
-import { registration } from './registration.api';
 
 export function RegistrationForm() {
   const router = useRouter();
@@ -35,12 +34,6 @@ export function RegistrationForm() {
 
   const registrationMutation = useMutation({
     mutationFn: registration,
-    onSuccess: async ({ success, data }) => {
-      if (success) {
-        setCookie(data.email, EMAIL_COOKIE_EXPIRATION);
-        router.push(PAGES.emailVerification);
-      }
-    },
     onError: (e) => {
       if (e instanceof Error) {
         setError(e.message);
@@ -48,13 +41,23 @@ export function RegistrationForm() {
     },
   });
 
-  function onSubmit(values: RegistrationFormValues) {
-    registrationMutation.mutateAsync({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.password,
-    });
+  async function onSubmit(values: RegistrationFormValues) {
+    await registrationMutation.mutate(
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onSuccess: async ({ success }) => {
+          if (success) {
+            setCookie(values.email, EMAIL_COOKIE_EXPIRATION);
+            router.push(PAGES.emailVerification);
+          }
+        },
+      },
+    );
   }
 
   return (
@@ -126,13 +129,7 @@ export function RegistrationForm() {
           </span>
         }
       />
-
-      {error && (
-        <LightOverlay className="p-[10px] w-full" background="error">
-          <p className="text-destructive text-center">{error}</p>
-        </LightOverlay>
-      )}
-
+      {error && <ErrorFrame>{error}</ErrorFrame>}
       <Button
         type="submit"
         className="w-full"

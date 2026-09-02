@@ -10,7 +10,7 @@ import { MailCheckIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { RootForm } from '@/components/forms';
-import { LightOverlay } from '@/components/shared';
+import { ErrorFrame, LightOverlay } from '@/components/shared';
 import {
   Button,
   Field,
@@ -120,13 +120,7 @@ export function EmailVerificationForm() {
             </Field>
           )}
         />
-
-        {error && (
-          <LightOverlay className="p-[10px] w-full" background="error">
-            <p className="text-destructive text-center">{error}</p>
-          </LightOverlay>
-        )}
-
+        {error && <ErrorFrame>{error}</ErrorFrame>}
         <Button
           type="submit"
           className="w-full"
