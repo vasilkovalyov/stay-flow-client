@@ -92,7 +92,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           Reset password
         </Button>
       </RootForm>
-      <ResetPasswordSuccessDialog open={!isOpenDialog} onClose={onClose} />
+      <ResetPasswordSuccessDialog open={isOpenDialog} onClose={onClose} />
     </>
   );
 }
