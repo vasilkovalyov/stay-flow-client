@@ -1,3 +1,5 @@
+import { UserActiveModeType } from './user-active-mode';
+
 export interface User {
   id: number;
   email: string;
@@ -6,4 +8,5 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   emailVerifiedAt: string;
+  activeMode: UserActiveModeType;
 }

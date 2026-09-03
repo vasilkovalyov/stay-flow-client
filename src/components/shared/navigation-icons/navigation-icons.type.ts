@@ -1,0 +1,18 @@
+export type NavigationIconType =
+  | 'dashboard'
+  | 'messages'
+  | 'notifications'
+  | 'security'
+  | 'deleteAccount'
+  | 'myTrips'
+  | 'savedHomes'
+  | 'profile'
+  | 'payments'
+  | 'properties'
+  | 'addProperty'
+  | 'bookings'
+  | 'revenue'
+  | 'guests'
+  | 'reviews'
+  | 'payouts'
+  | 'settings';

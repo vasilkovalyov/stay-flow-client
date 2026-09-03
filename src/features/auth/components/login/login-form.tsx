@@ -15,7 +15,7 @@ import { FormField, RootForm } from '@/components/forms';
 import { ErrorFrame } from '@/components/shared';
 import { Button, FieldSeparator } from '@/components/ui';
 
-import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
+import { PAGES, PROTECTED_COMMON_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
 
 import { setCookie } from '@/utils';
 
@@ -43,7 +43,7 @@ export function LoginForm() {
         queryKey: [TANSTACK_QUERY_KEY.getMe],
       });
 
-      router.push(PROTECTED_PAGES.dashboard);
+      router.push(PROTECTED_COMMON_PAGES.dashboard);
     },
     onError: (e, { email }) => {
       if (e instanceof ApiError) {

@@ -1,6 +1,11 @@
 import Link from 'next/link';
 
-import { UserDropdown, UserMessages, UserNotifications } from '@/features/auth/components';
+import {
+  UserActiveModeToggler,
+  UserDropdown,
+  UserMessages,
+  UserNotifications,
+} from '@/features/auth/components';
 
 import { AppLogo } from '@/components/shared';
 
@@ -17,6 +22,7 @@ export function Header() {
             <AppLogo />
           </Link>
           <AuthButtons>
+            <UserActiveModeToggler />
             <UserMessages />
             <UserNotifications />
             <UserDropdown />

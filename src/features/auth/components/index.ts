@@ -7,3 +7,5 @@ export { ForgotPasswordForm } from './forgot-password-form';
 export { ResetPasswordForm } from './reset-password-form';
 export { EmailVerificationForm } from './email-verification-form';
 export { TwoFactorAuthForm } from './two-factor-auth-form';
+export { UserAvatar } from './user-avatar';
+export { UserActiveModeToggler } from './user-active-mode-toggler';

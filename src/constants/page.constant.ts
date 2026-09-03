@@ -14,8 +14,34 @@ export const PAGES = {
   notFound: '/404',
 } as const;
 
-export const PROTECTED_PAGES = {
+export const PROTECTED_COMMON_PAGES = {
   dashboard: '/dashboard',
+  messages: '/messages',
+  notifications: '/notifications',
+  security: '/security',
+  deleteAccount: '/delete-account',
 } as const;
 
-export const PROTECTED_ROUTES_ARRAY = Object.values(PROTECTED_PAGES);
+export const PROTECTED_GUEST_PAGES = {
+  myTrips: '/my-trips',
+  savedHomes: '/saved-homes',
+  profile: '/profile',
+  payments: '/payments',
+} as const;
+
+export const PROTECTED_HOST_PAGES = {
+  properties: '/properties',
+  addProperty: '/add-property',
+  bookings: '/bookings',
+  revenue: '/revenue',
+  guests: '/guests',
+  reviews: '/reviews',
+  payouts: '/payouts',
+  settings: '/settings',
+} as const;
+
+export const PROTECTED_ROUTES_ARRAY = [
+  ...Object.values(PROTECTED_COMMON_PAGES),
+  ...Object.values(PROTECTED_GUEST_PAGES),
+  ...Object.values(PROTECTED_HOST_PAGES),
+];

@@ -6,11 +6,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Calendar, ChevronDown, CreditCard, Heart, LogOut, Settings, User } from 'lucide-react';
+import { ChevronDown, LogOut } from 'lucide-react';
 
+import { NAVIGATION_ICONS } from '@/components/shared';
 import {
-  Avatar,
-  AvatarFallback,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -19,46 +18,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui';
 
-import { PAGES, PROTECTED_PAGES, TANSTACK_QUERY_KEY } from '@/constants';
+import { PAGES, TANSTACK_QUERY_KEY } from '@/constants';
 
 import { LinkNavigation } from '@/types';
 
-import { getUserInitials } from '@/utils';
-
-import { logoutApi } from '../api/logout.api';
-import { useMe } from '../hooks/use-me';
+import { logoutApi } from '../../api/logout.api';
+import { useMe } from '../../hooks';
+import { UserAvatar } from '../user-avatar';
+import { dropdownNavigation } from './user-dropdown.constant';
 
 export interface UserDropdownLink extends LinkNavigation {
   icon: ReactNode;
 }
-
-const DROPDOWN_NAVIGATION: UserDropdownLink[] = [
-  {
-    icon: <User />,
-    href: PROTECTED_PAGES.dashboard,
-    text: 'Profile',
-  },
-  {
-    icon: <Calendar />,
-    href: PROTECTED_PAGES.dashboard,
-    text: 'My Trips',
-  },
-  {
-    icon: <Heart />,
-    href: PROTECTED_PAGES.dashboard,
-    text: 'Saved Homes',
-  },
-  {
-    icon: <CreditCard />,
-    href: PROTECTED_PAGES.dashboard,
-    text: 'Payments',
-  },
-  {
-    icon: <Settings />,
-    href: PROTECTED_PAGES.dashboard,
-    text: 'Settings',
-  },
-];
 
 export function UserDropdown() {
   const { data: user } = useMe();
@@ -82,15 +53,13 @@ export function UserDropdown() {
 
   if (!user?.success) return;
 
-  const { firstName, lastName, email } = user.data;
+  const { firstName, lastName, email, activeMode } = user.data;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="flex items-center gap-[8px]">
-          <Avatar size="sm">
-            <AvatarFallback>{getUserInitials(firstName, lastName)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar size="sm" />
           <span className="font-semibold hidden sm:block">{firstName}</span>
           <ChevronDown size={14} className="text-foreground" />
         </div>
@@ -107,14 +76,14 @@ export function UserDropdown() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {DROPDOWN_NAVIGATION.map(({ text, href, icon }, index) => (
+          {dropdownNavigation[activeMode].map(({ name, href, icon }, index) => (
             <DropdownMenuItem
               key={`${href}-${index}`}
               nativeButton={false}
               render={<Link href={href} />}
             >
-              {icon}
-              {text}
+              {NAVIGATION_ICONS[icon]}
+              {name}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
