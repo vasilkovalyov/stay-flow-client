@@ -11,9 +11,9 @@ import { UserDropdownLink } from './user-dropdown.type';
 
 const DROPDOWN_NAVIGATION_GUEST: UserDropdownLink[] = [
   {
-    href: PROTECTED_GUEST_PAGES.profile,
-    name: 'Profile',
-    icon: 'profile',
+    href: PROTECTED_COMMON_PAGES.dashboard,
+    name: 'Dashboard',
+    icon: 'dashboard',
   },
   {
     href: PROTECTED_GUEST_PAGES.myTrips,

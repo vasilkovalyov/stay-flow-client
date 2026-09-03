@@ -1,7 +1,9 @@
+import { PageHeading } from '@/components/shared';
+
 export default function Dashboard() {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <PageHeading title="Dashboard" subtitle="Welcome back, Alex! Here's what's happening." />
     </div>
   );
 }
