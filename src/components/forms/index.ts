@@ -7,6 +7,8 @@ export { FormCheckbox } from './form-checkbox';
 export type { FormCheckboxProps } from './form-checkbox';
 export { FormSelect } from './form-select';
 export type { FormSelectProps, FormSelectOption } from './form-select';
+export { FormPhone } from './form-phone';
+export type { FormPhoneProps } from './form-phone';
 export { FormSwitcher } from './form-switcher';
 export type { FormSwitcherProps } from './form-switcher';
 export { FormTextarea } from './form-textarea';

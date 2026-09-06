@@ -1,6 +1,7 @@
 export const API_REQUEST = {
   refresh: '/auth/refresh',
   getMe: '/user/me',
+  updateProfile: '/user/update',
   login: '/auth/sign-in',
   logout: '/auth/logout',
   registration: '/auth/sign-up',

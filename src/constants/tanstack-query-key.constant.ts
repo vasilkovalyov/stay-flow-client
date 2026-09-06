@@ -3,4 +3,6 @@ export const TANSTACK_QUERY_KEY = {
   verifyEmail: 'verifyEmail',
   getCountries: 'getCountries',
   getPhoneCodes: 'getPhoneCodes',
+  states: 'states',
+  cities: 'cities',
 } as const;

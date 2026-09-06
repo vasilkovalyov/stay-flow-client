@@ -52,6 +52,10 @@ export function FormSelect<T extends FieldValues>({
           <NativeSelect
             {...props}
             {...field}
+            onChange={(e) => {
+              field.onChange(e);
+              props.onChange?.(e);
+            }}
             id={fieldId}
             value={field.value ?? ''}
             aria-invalid={!!fieldState.error}

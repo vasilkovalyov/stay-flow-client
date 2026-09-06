@@ -7,6 +7,7 @@ import { FormCheckbox, FormCheckboxProps } from './form-checkbox';
 import { FormDate, FormDateProps } from './form-date';
 import { FormInput, FormInputProps } from './form-input';
 import { FormPassword, FormPasswordProps } from './form-password';
+import { FormPhone, FormPhoneProps } from './form-phone';
 import { FormSelect, FormSelectProps } from './form-select';
 import { FormSwitcher, FormSwitcherProps } from './form-switcher';
 import { FormTextarea, FormTextareaProps } from './form-textarea';
@@ -21,6 +22,7 @@ export type FormFieldProps<T extends FieldValues> =
   | ({ type: 'password' } & FormPasswordProps<T> & FormFieldBaseProps)
   | ({ type: 'checkbox' } & FormCheckboxProps<T> & FormFieldBaseProps)
   | ({ type: 'select' } & FormSelectProps<T> & FormFieldBaseProps)
+  | ({ type: 'phone' } & FormPhoneProps<T> & FormFieldBaseProps)
   | ({ type: 'switcher' } & FormSwitcherProps<T> & FormFieldBaseProps)
   | ({ type: 'textarea' } & FormTextareaProps<T> & FormFieldBaseProps)
   | ({ type: 'date' } & FormDateProps<T> & FormFieldBaseProps);
@@ -43,6 +45,8 @@ export function FormField<T extends FieldValues>(props: FormFieldProps<T>) {
       return <FormCheckbox {...omitType(props)} />;
     case 'select':
       return <FormSelect {...omitType(props)} />;
+    case 'phone':
+      return <FormPhone {...omitType(props)} />;
     case 'switcher':
       return <FormSwitcher {...omitType(props)} />;
     case 'textarea':
