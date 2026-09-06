@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UseFormReturn, useForm, useWatch } from 'react-hook-form';
 
+import { toast } from '@/components/ui';
+
 import { useCountries } from '@/hooks';
 
 import { TANSTACK_QUERY_KEY } from '@/constants';
@@ -72,11 +74,19 @@ export function useProfileForm(): UseProfileFormProps {
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
     onSuccess: async () => {
-      console.log('update');
+      toast.add({
+        type: 'success',
+        title: 'Profile updated',
+        description: 'Your profile has been successfully updated.',
+      });
     },
     onError: (e) => {
       if (e instanceof ApiError) {
-        console.log(e.message);
+        toast.add({
+          type: 'error',
+          title: 'Update failed',
+          description: e.message,
+        });
       }
     },
   });
