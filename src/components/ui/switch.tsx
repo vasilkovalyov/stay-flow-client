@@ -23,13 +23,12 @@ const switchVariants = cva(
     data-unchecked:border-transparent
     data-unchecked:bg-input/90
 
-    focus-visible:border-ring
-    focus-visible:ring-3
-    focus-visible:ring-ring/30
+    focus-visible:border-border-strong
 
     aria-invalid:border-destructive
-    aria-invalid:ring-3
-    aria-invalid:ring-destructive/20
+    aria-invalid:outline-2
+    aria-invalid:outline-offset-2
+    aria-invalid:outline-destructive
 
     data-disabled:cursor-not-allowed
     data-disabled:opacity-50`,

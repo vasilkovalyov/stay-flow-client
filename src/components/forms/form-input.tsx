@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentProps, ReactNode } from 'react';
+import { ComponentProps } from 'react';
 
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 
@@ -14,6 +14,8 @@ import {
   InputGroupInput,
 } from '@/components/ui';
 
+import { FIELDS_ICONS, FieldsIconType } from '../shared';
+
 export interface FormInputProps<T extends FieldValues> extends Omit<
   ComponentProps<typeof InputGroupInput>,
   'name' | 'defaultValue'
@@ -21,7 +23,7 @@ export interface FormInputProps<T extends FieldValues> extends Omit<
   name: Path<T>;
   label?: string;
   description?: string;
-  icon?: ReactNode;
+  icon?: FieldsIconType;
 }
 
 export function FormInput<T extends FieldValues>({
@@ -43,7 +45,7 @@ export function FormInput<T extends FieldValues>({
         <Field data-invalid={!!fieldState.error}>
           {label && <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>}
           <InputGroup>
-            {icon && <InputGroupAddon>{icon}</InputGroupAddon>}
+            {icon && <InputGroupAddon>{FIELDS_ICONS[icon]}</InputGroupAddon>}
             <InputGroupInput
               {...field}
               {...props}

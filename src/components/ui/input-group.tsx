@@ -29,13 +29,12 @@ function InputGroup({ className, ...props }: ComponentProps<'div'>) {
 
           has-[textarea]:radius-lg
 
-          has-[[data-slot=input-group-control]:focus-visible]:border-ring
-          has-[[data-slot=input-group-control]:focus-visible]:ring-3
-          has-[[data-slot=input-group-control]:focus-visible]:ring-ring/30
+          has-[[data-slot=input-group-control]:focus-visible]:border-border-strong
 
           has-[[data-slot][aria-invalid=true]]:border-destructive
-          has-[[data-slot][aria-invalid=true]]:ring-3
-          has-[[data-slot][aria-invalid=true]]:ring-destructive/20
+          has-[[data-slot][aria-invalid=true]]:outline-2
+          has-[[data-slot][aria-invalid=true]]:outline-offset-2
+          has-[[data-slot][aria-invalid=true]]:outline-destructive
       
           has-[>textarea]:h-auto
 

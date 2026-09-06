@@ -29,16 +29,15 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 
           hover:data-unchecked:border-foreground/20
 
-          focus-visible:border-ring
-          focus-visible:ring-3
-          focus-visible:ring-ring/30
+          focus-visible:border-border-strong
 
           disabled:cursor-not-allowed
           disabled:opacity-50
 
           aria-invalid:border-destructive
-          aria-invalid:ring-3
-          aria-invalid:ring-destructive/20
+          aria-invalid:outline-2
+          aria-invalid:outline-offset-2
+          aria-invalid:outline-destructive
 
           group-has-disabled/field:opacity-50
         `,

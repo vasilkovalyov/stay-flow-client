@@ -21,6 +21,7 @@
   --destructive-foreground: #ffffff;
   --destructive-light: #fef2f2;
   --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.5);
   --input: #f4f3f0;
   --input-foreground: #111111;
   --ring: rgba(255, 79, 118, 0.5);
@@ -48,6 +49,7 @@
   --color-input: var(--input);
   --color-input-foreground: var(--input-foreground);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive-light: var(--destructive-light);

@@ -26,17 +26,16 @@ function Input({ className, type, ...props }: ComponentProps<'input'>) {
           file:font-semibold
           file:text-foreground
 
-          focus-visible:border-ring
-          focus-visible:ring-3
-          focus-visible:ring-ring/30
+          focus-visible:border-border-strong
 
           disabled:pointer-events-none
           disabled:cursor-not-allowed
           disabled:opacity-50
 
           aria-invalid:border-destructive
-          aria-invalid:ring-3
-          aria-invalid:ring-destructive/20
+          aria-invalid:outline-2
+          aria-invalid:outline-offset-2
+          aria-invalid:outline-destructive
         `,
         className,
       )}

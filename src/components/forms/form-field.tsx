@@ -2,20 +2,30 @@
 
 import { FieldValues } from 'react-hook-form';
 
+import { FieldsIconType } from '../shared';
 import { FormCheckbox, FormCheckboxProps } from './form-checkbox';
+import { FormDate, FormDateProps } from './form-date';
 import { FormInput, FormInputProps } from './form-input';
 import { FormPassword, FormPasswordProps } from './form-password';
 import { FormSelect, FormSelectProps } from './form-select';
 import { FormSwitcher, FormSwitcherProps } from './form-switcher';
 import { FormTextarea, FormTextareaProps } from './form-textarea';
 
+type FormFieldBaseProps = {
+  wrapperClassname?: string;
+  icon?: FieldsIconType;
+};
+
 export type FormFieldProps<T extends FieldValues> =
-  | ({ type: 'input' } & FormInputProps<T>)
-  | ({ type: 'password' } & FormPasswordProps<T>)
-  | ({ type: 'checkbox' } & FormCheckboxProps<T>)
-  | ({ type: 'select' } & FormSelectProps<T>)
-  | ({ type: 'switcher' } & FormSwitcherProps<T>)
-  | ({ type: 'textarea' } & FormTextareaProps<T>);
+  | ({ type: 'input' } & FormInputProps<T> & FormFieldBaseProps)
+  | ({ type: 'password' } & FormPasswordProps<T> & FormFieldBaseProps)
+  | ({ type: 'checkbox' } & FormCheckboxProps<T> & FormFieldBaseProps)
+  | ({ type: 'select' } & FormSelectProps<T> & FormFieldBaseProps)
+  | ({ type: 'switcher' } & FormSwitcherProps<T> & FormFieldBaseProps)
+  | ({ type: 'textarea' } & FormTextareaProps<T> & FormFieldBaseProps)
+  | ({ type: 'date' } & FormDateProps<T> & FormFieldBaseProps);
+
+export type FormFieldType = FormFieldProps<FieldValues>['type'];
 
 function omitType<T extends { type: string }>(props: T): Omit<T, 'type'> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,6 +47,8 @@ export function FormField<T extends FieldValues>(props: FormFieldProps<T>) {
       return <FormSwitcher {...omitType(props)} />;
     case 'textarea':
       return <FormTextarea {...omitType(props)} />;
+    case 'date':
+      return <FormDate {...omitType(props)} />;
     default:
       return null;
   }

@@ -35,16 +35,15 @@ function NativeSelect({ className, size = 'default', ...props }: NativeSelectPro
           selection:text-primary-foreground
           placeholder:text-muted-foreground
 
-          focus-visible:border-ring
-          focus-visible:ring-3
-          focus-visible:ring-ring/30
+          focus-visible:border-border-strong
 
           disabled:pointer-events-none
           disabled:cursor-not-allowed
 
           aria-invalid:border-destructive
-          aria-invalid:ring-3
-          aria-invalid:ring-destructive/20
+          aria-invalid:outline-2
+          aria-invalid:outline-offset-2
+          aria-invalid:outline-destructive
         "
         {...props}
       />

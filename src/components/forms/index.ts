@@ -11,5 +11,7 @@ export { FormSwitcher } from './form-switcher';
 export type { FormSwitcherProps } from './form-switcher';
 export { FormTextarea } from './form-textarea';
 export type { FormTextareaProps } from './form-textarea';
+export { FormDate } from './form-date';
+export type { FormDateProps } from './form-date';
 export { FormField } from './form-field';
-export type { FormFieldProps } from './form-field';
+export type { FormFieldProps, FormFieldType } from './form-field';
