@@ -133,10 +133,8 @@ export function FormPhone<T extends FieldValues>({
                           disabled:opacity-50
                         `)}
                       >
-                        <span className="text-base leading-none">
-                          {selectedCode?.emoji ?? '🌐'}
-                        </span>
-                        <span className="flex items-center text-sm text-foreground">
+                        <span className="leading-none">{selectedCode?.emoji ?? '🌐'}</span>
+                        <span className="flex items-center text-input-foreground font-normal">
                           {selectedCode?.phonecode ?? '--'}
                         </span>
                         <ChevronDownIcon className="size-[14px] text-muted-foreground" />
@@ -168,14 +166,14 @@ export function FormPhone<T extends FieldValues>({
                                 `
                                   flex items-center gap-[8px]
                                   rounded-lg px-[8px] py-[6px]
-                                  text-left text-sm
+                                  text-left
 
                                   hover:bg-muted-foreground/10
                                 `,
                                 selectedCode?.id === code.id && 'bg-muted-foreground/10',
                               )}
                             >
-                              <span className="text-base leading-none">{code.emoji}</span>
+                              <span className="leading-none">{code.emoji}</span>
                               <span>{code.phonecode}</span>
                             </button>
                           ))}

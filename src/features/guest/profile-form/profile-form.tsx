@@ -1,7 +1,5 @@
 'use client';
 
-import { ChangeEvent } from 'react';
-
 import { cn } from '@/lib/utils';
 
 import { FormField, RootForm } from '@/components/forms';
@@ -17,7 +15,7 @@ export function ProfileForm() {
     <RootForm methods={methods} onSubmit={onSubmit} className="grid gap-[12px]">
       <div className="flex flex-wrap justify-between gap-[12px]">
         {fields.map((props) => {
-          if (props.type === 'select') {
+          if (props.type === 'combobox') {
             const { wrapperClassname, ...selectProps } = props;
 
             return (
@@ -26,8 +24,8 @@ export function ProfileForm() {
                   {...selectProps}
                   options={getSelectOptions(props.name)}
                   disabled={getFieldDisabled(props.name)}
-                  onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                    onChange(props.name, e.target.value);
+                  onChange={(value: string) => {
+                    onChange(props.name, value);
                   }}
                 />
               </div>

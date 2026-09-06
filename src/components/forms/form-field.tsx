@@ -4,6 +4,7 @@ import { FieldValues } from 'react-hook-form';
 
 import { FieldsIconType } from '../shared';
 import { FormCheckbox, FormCheckboxProps } from './form-checkbox';
+import { FormCombobox, FormComboboxProps } from './form-combobox';
 import { FormDate, FormDateProps } from './form-date';
 import { FormInput, FormInputProps } from './form-input';
 import { FormPassword, FormPasswordProps } from './form-password';
@@ -22,6 +23,7 @@ export type FormFieldProps<T extends FieldValues> =
   | ({ type: 'password' } & FormPasswordProps<T> & FormFieldBaseProps)
   | ({ type: 'checkbox' } & FormCheckboxProps<T> & FormFieldBaseProps)
   | ({ type: 'select' } & FormSelectProps<T> & FormFieldBaseProps)
+  | ({ type: 'combobox' } & FormComboboxProps<T> & FormFieldBaseProps)
   | ({ type: 'phone' } & FormPhoneProps<T> & FormFieldBaseProps)
   | ({ type: 'switcher' } & FormSwitcherProps<T> & FormFieldBaseProps)
   | ({ type: 'textarea' } & FormTextareaProps<T> & FormFieldBaseProps)
@@ -45,6 +47,8 @@ export function FormField<T extends FieldValues>(props: FormFieldProps<T>) {
       return <FormCheckbox {...omitType(props)} />;
     case 'select':
       return <FormSelect {...omitType(props)} />;
+    case 'combobox':
+      return <FormCombobox {...omitType(props)} />;
     case 'phone':
       return <FormPhone {...omitType(props)} />;
     case 'switcher':
