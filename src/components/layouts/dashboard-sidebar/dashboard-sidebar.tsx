@@ -1,4 +1,5 @@
 import { LightOverlay } from '@/components/shared';
+import { Separator } from '@/components/ui';
 
 import { DashboardSidebarNavigation, DashboardSidebarUser } from './components';
 
@@ -7,7 +8,7 @@ export function DashboardSidebar() {
     <LightOverlay className="sticky top-[96px]">
       <div className="grid gap-[8px] p-[8px]">
         <DashboardSidebarUser />
-        <div className="border-t border-border" />
+        <Separator />
         <DashboardSidebarNavigation />
       </div>
     </LightOverlay>

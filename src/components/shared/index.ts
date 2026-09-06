@@ -4,3 +4,4 @@ export { ErrorFrame } from './error-frame';
 export { PasswordRequirements } from './password-requirments';
 export { NAVIGATION_ICONS, type NavigationIconType } from './navigation-icons';
 export { PageHeading } from './page-heading';
+export { FIELDS_ICONS, type FieldsIconType } from './fields-icons';

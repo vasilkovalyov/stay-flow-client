@@ -38,4 +38,4 @@ export const NAVIGATION_ICONS: Record<NavigationIconType, ReactNode> = {
   reviews: <Star />,
   payouts: <CreditCard />,
   settings: <Settings />,
-} as const;
+};
