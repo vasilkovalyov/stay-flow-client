@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { ChevronLeft, MailIcon, SendIcon } from 'lucide-react';
+import { ChevronLeft, SendIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
@@ -65,7 +65,7 @@ export function ForgotPasswordForm() {
           name="email"
           label="Email address"
           placeholder="you@example.com"
-          icon={<MailIcon />}
+          icon="mail"
           autoComplete="email"
           data-testid="email"
         />

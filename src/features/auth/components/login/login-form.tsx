@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { ApiError } from '@/lib/api-error';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LogInIcon, MailIcon } from 'lucide-react';
+import { LogInIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, RootForm } from '@/components/forms';
@@ -73,7 +73,7 @@ export function LoginForm() {
         name="email"
         label="Email"
         placeholder="Email"
-        icon={<MailIcon />}
+        icon="mail"
         autoComplete="email"
         data-testid="email"
       />
