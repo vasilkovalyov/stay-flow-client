@@ -4,8 +4,9 @@ import { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Toast as ToastPrimitive } from '@base-ui/react/toast';
+import { cva } from 'class-variance-authority';
 import {
-  CircleCheckIcon,
+  CircleCheck,
   InfoIcon,
   Loader2Icon,
   OctagonXIcon,
@@ -16,6 +17,43 @@ import {
 import { Button } from '@/components/ui/button';
 
 const toast = ToastPrimitive.createToastManager();
+
+type ToastVariant = 'default' | 'success' | 'info' | 'warning' | 'error' | 'loading';
+
+const toastVariants = cva('', {
+  variants: {
+    type: {
+      default: 'bg-popover text-popover-foreground border-border',
+      success: 'border-success/20 bg-success-light text-foreground',
+      info: 'border-info/20 bg-info-light text-foreground',
+      warning: 'border-warning/20 bg-warning-light text-foreground',
+      error: 'border-destructive/20 bg-destructive-light text-foreground',
+      loading: 'border-border bg-popover text-popover-foreground',
+    } satisfies Record<ToastVariant, string>,
+  },
+  defaultVariants: {
+    type: 'default',
+  },
+});
+
+const toastIconVariants = cva(
+  `shrink-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[14px]`,
+  {
+    variants: {
+      type: {
+        default: 'text-foreground',
+        success: 'text-success',
+        info: 'text-info',
+        warning: 'text-warning',
+        error: 'text-destructive',
+        loading: 'text-muted-foreground',
+      } satisfies Record<ToastVariant, string>,
+    },
+    defaultVariants: {
+      type: 'default',
+    },
+  },
+);
 
 function ToastProvider({ ...props }: ToastPrimitive.Provider.Props) {
   return <ToastPrimitive.Provider {...props} />;
@@ -47,12 +85,16 @@ function ToastViewport({ className, ...props }: ToastPrimitive.Viewport.Props) {
   );
 }
 
-function Toast({ className, ...props }: ToastPrimitive.Root.Props) {
+function Toast({ className, toast: toastItem, ...props }: ToastPrimitive.Root.Props) {
+  const type = (toastItem?.type as ToastVariant | undefined) ?? 'default';
+
   return (
     <ToastPrimitive.Root
       data-slot="toast"
+      toast={toastItem}
       className={cn(
-        'group/toast pointer-events-auto absolute right-0 bottom-0 z-[calc(1000-var(--toast-index))] w-full origin-bottom radius-lg border bg-popover text-popover-foreground shadow-lg will-change-transform outline-none select-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
+        toastVariants({ type }),
+        'group/toast pointer-events-auto absolute right-0 bottom-0 z-[calc(1000-var(--toast-index))] w-full origin-bottom radius-lg border shadow-lg will-change-transform outline-none select-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
         '[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))]',
         'h-(--height) [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [transition:transform_500ms_cubic-bezier(0.22,1,0.36,1),opacity_500ms,height_150ms]',
         "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
@@ -80,7 +122,7 @@ function ToastContent({ className, ...props }: ToastPrimitive.Content.Props) {
       data-slot="toast-content"
       className={cn(
         `
-          flex h-full items-center gap-[10px]
+          flex h-full gap-[10px]
           overflow-hidden p-[14px]
           transition-opacity duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]
 
@@ -99,6 +141,7 @@ function ToastTitle({ className, ...props }: ToastPrimitive.Title.Props) {
     <ToastPrimitive.Title
       data-slot="toast-title"
       className={cn('font-semibold', className)}
+      render={<p />}
       {...props}
     />
   );
@@ -108,7 +151,7 @@ function ToastDescription({ className, ...props }: ToastPrimitive.Description.Pr
   return (
     <ToastPrimitive.Description
       data-slot="toast-description"
-      className={cn('text-muted-foreground', className)}
+      className={cn('text-muted-foreground text-xs', className)}
       {...props}
     />
   );
@@ -155,7 +198,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
   let icon: ReactNode = null;
 
   if (type === 'success') {
-    icon = <CircleCheckIcon aria-hidden="true" />;
+    icon = <CircleCheck aria-hidden="true" />;
   }
 
   if (type === 'info') {
@@ -167,7 +210,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   if (type === 'error') {
-    icon = <OctagonXIcon className="text-destructive" aria-hidden="true" />;
+    icon = <OctagonXIcon aria-hidden="true" />;
   }
 
   if (type === 'loading') {
@@ -179,10 +222,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   return (
-    <span
-      data-slot="toast-icon"
-      className="shrink-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[14px]"
-    >
+    <span data-slot="toast-icon" className={toastIconVariants({ type: type as ToastVariant })}>
       {icon}
     </span>
   );
@@ -194,13 +234,17 @@ function ToastList() {
   return toasts.map((toastItem) => (
     <Toast key={toastItem.id} toast={toastItem}>
       <ToastContent>
-        <ToastIcon type={toastItem.type} />
+        <div className="pt-[4px]">
+          <ToastIcon type={toastItem.type} />
+        </div>
         <div className="flex min-w-0 flex-1 flex-col gap-[4px]">
           <ToastTitle />
           <ToastDescription />
         </div>
         <ToastAction />
-        <ToastClose />
+        <div>
+          <ToastClose />
+        </div>
       </ToastContent>
     </Toast>
   ));
