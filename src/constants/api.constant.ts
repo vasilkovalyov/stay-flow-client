@@ -2,6 +2,7 @@ export const API_REQUEST = {
   refresh: '/auth/refresh',
   getMe: '/user/me',
   updateProfile: '/user/update',
+  switchMode: '/user/switch-mode',
   login: '/auth/sign-in',
   logout: '/auth/logout',
   registration: '/auth/sign-up',

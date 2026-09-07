@@ -5,7 +5,6 @@ import { PAGES, PROTECTED_ROUTES_ARRAY, REGISTRATION_TOKEN_COOKIE_NAME } from '@
 
 import { isRouteMatch } from '@/utils';
 
-// This function can be marked `async` if using `await` inside
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 

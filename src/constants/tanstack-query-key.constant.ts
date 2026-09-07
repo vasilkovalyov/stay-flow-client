@@ -5,4 +5,5 @@ export const TANSTACK_QUERY_KEY = {
   getPhoneCodes: 'getPhoneCodes',
   states: 'states',
   cities: 'cities',
+  switchMode: 'switchMode',
 } as const;
